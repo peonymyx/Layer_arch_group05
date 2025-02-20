@@ -1,8 +1,12 @@
-﻿namespace Backend.CoreLayer.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Backend.CoreLayer.Entities
 {
     public class MovieSeriesTag
     {
+        [Key]
         public int MovieSeriesId { get; set; }
+
         public int TagId { get; set; }
 
         public Movie Movie { get; set; }
