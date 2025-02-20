@@ -18,6 +18,8 @@ namespace Backend.DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Tag>().HasKey(t => t.tag_id);
+
             modelBuilder.Entity<MovieSeriesTag>()
                 .HasKey(mst => new { mst.MovieSeriesId, mst.TagId });
 
