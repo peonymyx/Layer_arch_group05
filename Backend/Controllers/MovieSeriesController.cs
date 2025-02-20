@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Backend.CoreLayer;
+using Backend.ServiceLayer;
+using Microsoft.AspNetCore.Mvc;
+using MovieSeries.CoreLayer.Entities;
 
 namespace Backend.Controllers
 {
-    public class MovieSeriesController
-    {
+        [Route("api/[controller]")]
         [ApiController]
-        [Route("api/movieseries")]
         public class MovieSeriesController : ControllerBase
         {
             private readonly MovieSeriesService _movieSeriesService;
@@ -16,40 +17,47 @@ namespace Backend.Controllers
             }
 
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<MovieSeries>>> GetAllMovies()
+            public async Task<ActionResult<IEnumerable<MoviesSeries>>> GetAllMoviesSeries()
             {
-                var movies = await _movieSeriesService.GetAllMoviesAsync();
-                return Ok(movies);
+                var moviesSeries = await _movieSeriesService.GetAllMoviesSeriesAsync();
+                return Ok(moviesSeries);
             }
 
             [HttpGet("{id}")]
-            public async Task<ActionResult<MovieSeries>> GetMovieById(int id)
+            public async Task<ActionResult<MoviesSeries>> GetMovieSeriesById(int id)
             {
-                var movie = await _movieSeriesService.GetMovieByIdAsync(id);
-                if (movie == null) return NotFound();
-                return Ok(movie);
+                var movieSeries = await _movieSeriesService.GetMovieSeriesByIdAsync(id);
+                if (movieSeries == null) return NotFound();
+                return Ok(movieSeries);
             }
 
             [HttpPost]
-            public async Task<IActionResult> CreateMovie(MovieSeries movie)
+            public async Task<ActionResult> AddMovieSeries([FromBody] MoviesSeries movieSeries)
             {
-                await _movieSeriesService.AddMovieAsync(movie);
-                return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id }, movie);
+                await _movieSeriesService.AddMovieSeriesAsync(movieSeries);
+                return CreatedAtAction(nameof(GetMovieSeriesById), new { id = movieSeries.Id }, movieSeries);
             }
 
             [HttpPut("{id}")]
-            public async Task<IActionResult> UpdateMovie(int id, MovieSeries movie)
+            public async Task<ActionResult> UpdateMovieSeries(int id, [FromBody] MoviesSeries movieSeries)
             {
-                if (id != movie.Id) return BadRequest();
-                await _movieSeriesService.UpdateMovieAsync(movie);
+                if (id != movieSeries.Id) return BadRequest();
+                await _movieSeriesService.UpdateMovieSeriesAsync(movieSeries);
                 return NoContent();
             }
 
             [HttpDelete("{id}")]
-            public async Task<IActionResult> DeleteMovie(int id)
+            public async Task<ActionResult> DeleteMovieSeries(int id)
             {
-                await _movieSeriesService.DeleteMovieAsync(id);
+                await _movieSeriesService.DeleteMovieSeriesAsync(id);
                 return NoContent();
             }
+
+            [HttpGet("top-rated/{count}")]
+            public async Task<ActionResult<IEnumerable<MoviesSeries>>> GetTopRatedMoviesSeries(int count)
+            {
+                var moviesSeries = await _movieSeriesService.GetTopRatedMoviesSeriesAsync(count);
+                return Ok(moviesSeries);
+            }
         }
-}
+    }

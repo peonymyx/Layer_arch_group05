@@ -1,10 +1,9 @@
 ﻿using Backend.CoreLayer.Entities;
+using Backend.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    public class ReviewController
-    {
         [ApiController]
         [Route("api/reviews")]
         public class ReviewController : ControllerBase
@@ -26,7 +25,7 @@ namespace Backend.Controllers
             [HttpGet("{id}")]
             public async Task<ActionResult<Review>> GetReviewById(int id)
             {
-                var review = await _reviewService.GetReviewByIdAsync(id);
+                var review = await _reviewService.GetReviewsByMovieIdAsync(id);
                 if (review == null) return NotFound();
                 return Ok(review);
             }

@@ -1,14 +1,13 @@
 ﻿
-using Backend.CoreLayer;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore;
 using Backend.CoreLayer.Entities;
+using MovieSeries.CoreLayer.Entities;
 
 namespace Backend.DataAccessLayer
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<MoviesSeries> MoviesSeries { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
@@ -23,8 +22,8 @@ namespace Backend.DataAccessLayer
                 .HasKey(mst => new { mst.MovieSeriesId, mst.TagId });
 
             modelBuilder.Entity<MovieSeriesTag>()
-                .HasOne(mst => mst.Movie)
-                .WithMany(m => m.MovieSeriesTags)
+                .HasOne(mst => mst.MovieSeries)
+                .WithMany(m => m.MoviesSeriesTags)
                 .HasForeignKey(mst => mst.MovieSeriesId);
 
             modelBuilder.Entity<MovieSeriesTag>()
@@ -40,7 +39,7 @@ namespace Backend.DataAccessLayer
 
             // Configure Review entity
             modelBuilder.Entity<Review>()
-                .HasOne(r => r.Movie)
+                .HasOne(r => r.MovieSeries)
                 .WithMany()
                 .HasForeignKey(r => r.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -50,6 +49,11 @@ namespace Backend.DataAccessLayer
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.MovieSeries)
+                .WithMany(ms => ms.Ratings)
+                .HasForeignKey(r => r.MovieSeriesId);
         }
    }
 }

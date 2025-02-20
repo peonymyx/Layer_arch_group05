@@ -1,4 +1,6 @@
-﻿namespace Backend.CoreLayer.Entities
+﻿using MovieSeries.CoreLayer.Entities;
+
+namespace Backend.CoreLayer.Entities
 {
     public class Rating
     {
@@ -8,6 +10,6 @@
         public decimal RatingValue { get; set; }
 
         public User User { get; set; }
-        public Movie Movie { get; set; }
+        public MoviesSeries MovieSeries { get; set; }
     }
 }

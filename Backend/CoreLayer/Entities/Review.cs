@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MovieSeries.CoreLayer.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.CoreLayer.Entities
 {
@@ -21,7 +22,7 @@ namespace Backend.CoreLayer.Entities
 
         // Khai báo khóa ngoại rõ ràng
         [ForeignKey("MovieId")]
-        public Movie Movie { get; set; }
+        public MoviesSeries MovieSeries { get; set; }
 
         [ForeignKey("UserId")]
         public User User { get; set; }
