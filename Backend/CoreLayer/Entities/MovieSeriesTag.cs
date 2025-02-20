@@ -1,4 +1,4 @@
-﻿namespace Backend.CoreLayer
+﻿namespace Backend.CoreLayer.Entities
 {
     public class MovieSeriesTag
     {

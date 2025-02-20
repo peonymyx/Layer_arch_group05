@@ -1,4 +1,6 @@
-﻿namespace Backend.CoreLayer
+﻿using Backend.CoreLayer.Entities;
+
+namespace Backend.CoreLayer
 {
     public class Movie
     {
