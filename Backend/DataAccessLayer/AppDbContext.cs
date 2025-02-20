@@ -1,15 +1,18 @@
-﻿using Backend.CoreLayer.Entities;
+﻿
+using Backend.CoreLayer;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Backend.CoreLayer.Entities;
 
 namespace Backend.DataAccessLayer
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<MovieSeriesTag> MovieSeriesTags { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -19,8 +22,8 @@ namespace Backend.DataAccessLayer
                 .HasKey(mst => new { mst.MovieSeriesId, mst.TagId });
 
             modelBuilder.Entity<MovieSeriesTag>()
-                .HasOne(mst => mst.MovieSeries)
-                .WithMany(ms => ms.MovieSeriesTags)
+                .HasOne(mst => mst.Movie)
+                .WithMany(m => m.MovieSeriesTags)
                 .HasForeignKey(mst => mst.MovieSeriesId);
 
             modelBuilder.Entity<MovieSeriesTag>()
@@ -28,5 +31,5 @@ namespace Backend.DataAccessLayer
                 .WithMany(t => t.MovieSeriesTags)
                 .HasForeignKey(mst => mst.TagId);
         }
-    }
+   }
 }
