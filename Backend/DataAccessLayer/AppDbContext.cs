@@ -14,6 +14,7 @@ namespace Backend.DataAccessLayer
         public DbSet<User> Users { get; set; }
         public DbSet<MovieSeriesTag> MovieSeriesTags { get; set; }
 
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +31,25 @@ namespace Backend.DataAccessLayer
                 .HasOne(mst => mst.Tag)
                 .WithMany(t => t.MovieSeriesTags)
                 .HasForeignKey(mst => mst.TagId);
+
+            // Configure User entity
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Reviews)
+                .WithOne(r => r.User)
+                .HasForeignKey(r => r.UserId);
+
+            // Configure Review entity
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Movie)
+                .WithMany()
+                .HasForeignKey(r => r.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
    }
 }
