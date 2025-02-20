@@ -2,14 +2,12 @@
 {
     public class Rating
     {
-        public int ReviewId { get; set; }
-
+        public int RatingId { get; set; }
         public int UserId { get; set; }
-
         public int MovieSeriesId { get; set; }
+        public decimal RatingValue { get; set; }
 
-        public string ReviewText { get; set; }
-
-        public DateTime ReviewDate { get; set; }
+        public User User { get; set; }
+        public Movie Movie { get; set; }
     }
 }
