@@ -2,7 +2,7 @@
 
 namespace Backend.BussinessLayer
 {
-    public class RatingCalculator
+    public class RatingService
     {
         public static decimal CalculateAverageRating(IEnumerable<Rating> ratings)
         {
